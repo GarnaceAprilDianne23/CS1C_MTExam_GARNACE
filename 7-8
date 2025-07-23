@@ -1,0 +1,73 @@
+// Arrays for subjects
+let DSA = [];
+let WebDev = [];
+
+function mainMenu() {
+  let subjectChoice = prompt("Select a subject to enroll in:\n(A) DSA\n(B) WebDev").toUpperCase();
+
+  switch (subjectChoice) {
+    case "A":
+      subjectOperations("DSA", DSA);
+      break;
+    case "B":
+      subjectOperations("WebDev", WebDev);
+      break;
+    default:
+      alert("Invalid choice. Please try again.");
+      mainMenu();
+  }
+}
+
+function subjectOperations(subjectName, subjectArray) {
+  let operation = prompt(
+    `Selected Subject: ${subjectName}\nChoose an operation:\n(A) Enroll\n(B) Unenroll\n(C) Select Another Subject\n(D) Exit`
+  ).toUpperCase();
+
+  switch (operation) {
+    case "A":
+      let enrollName = prompt(`Enter the student's name to enroll in ${subjectName}:`);
+      subjectArray.push(enrollName);
+      alert(`${enrollName} has been enrolled in ${subjectName}.`);
+      subjectOperations(subjectName, subjectArray);
+      break;
+
+    case "B":
+      if (subjectArray.length === 0) {
+        alert(`No students currently enrolled in ${subjectName}.`);
+      } else {
+        alert(`Currently enrolled in ${subjectName}:\n${subjectArray.join("\n")}`);
+        let unenrollName = prompt(`Enter the name of the student to unenroll from ${subjectName}:`);
+        let index = subjectArray.indexOf(unenrollName);
+        if (index !== -1) {
+          subjectArray.splice(index, 1);
+          alert(`${unenrollName} has been unenrolled from ${subjectName}.`);
+        } else {
+          alert(`${unenrollName} is not found in the enrolled list.`);
+        }
+      }
+      subjectOperations(subjectName, subjectArray);
+      break;
+
+    case "C":
+      mainMenu();
+      break;
+
+    case "D":
+      exitProgram();
+      break;
+
+    default:
+      alert("Invalid operation. Please try again.");
+      subjectOperations(subjectName, subjectArray);
+  }
+}
+
+function exitProgram() {
+  alert("Final Enrolled Students:\n\n" +
+    `DSA:\n${DSA.join("\n") || "No students enrolled"}\n\n` +
+    `WebDev:\n${WebDev.join("\n") || "No students enrolled"}\n\n` +
+    "Exiting program...");
+}
+
+// Start the program
+mainMenu();
